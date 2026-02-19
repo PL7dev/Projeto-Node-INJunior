@@ -76,3 +76,20 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json({ error: 'Erro ao deletar usuário' })
   }
 }
+
+// Leitura de posts por usuário
+exports.getPostsByUser = async (req, res) => {
+  try {
+    const { id } = req.params
+
+    const posts = await prisma.post.findMany({
+      where: {
+        usuarioId: Number(id)
+      }
+    })
+
+    res.json(posts)
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao buscar posts do usuário' })
+  }
+}
